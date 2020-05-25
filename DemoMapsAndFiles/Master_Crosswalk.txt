@@ -1,0 +1,371 @@
+#Input these with variable/no real thought as a proof of concept - randomly at times
+
+GeomorphLines
+Symbol		|Type	    			|LocationConfidenceMeters	|ExistenceConfidence|IdentityConfidence	|IsConcealed
+04.01.01	|lineation				|20							|questionable			|certain			|N
+
+ContactsAndFaults					
+Symbol		|Type	    						|LocationConfidenceMeters	|ExistenceConfidence|IdentityConfidence	|IsConcealed
+#Contacts
+01.01.01	|contact							|8	                    	|certain	        |certain	        |N
+01.01.02	|contact   							|8	                        |questionable       |questionable    	|N
+01.01.03	|contact   							|16                         |certain            |certain            |N
+01.01.04	|contact   							|16						    |questionable      	|questionable		|N
+01.01.05	|contact   							|32                         |certain     		|certain            |N
+#questionable with inferred location (below) implies higher uncertainty
+01.01.06	|contact   							|32                        	|questionable     	|questionable       |N
+01.01.07	|contact   							|16                         |certain     		|certain       		|Y
+01.01.08	|contact   							|32							|questionable     	|questionable       |Y
+#Internal Contacts
+01.01.09	|contact, internal					|8                   	    |certain          	|certain       		|N
+01.01.11	|contact, internal					|16                  		|questionable       |questionable       |N
+01.01.12	|contact, internal					|16							|certain			|certain 			|N
+#Incised scarps
+01.01.33	|contact, incised-scarp 			|8							|certain	        |certain	        |N
+01.01.34	|contact, incised-scarp				|8							|questionable		|questionable 		|N
+#Dikes -added 20191122
+01.03.01	|dike								|8							|certain          	|certain       		|N
+#fluvial terrace scarp
+12.01		|fluvial terrace scarp				|8							|certain			|certain 			|N
+12.02		|fluvial terrace scarp				|8							|questionable		|questionable 		|N
+12.03		|fluvial terrace scarp				|16							|certain			|certain 			|N
+12.04		|fluvial terrace scarp				|16							|questionable		|questionable 		|N
+#Gradational contacts
+#These are somewhat wide by definition
+01.01.17	|contact, gradational				|36						    |certain			|certain			|N
+01.01.19	|contact, gradational				|50						    |certain			|certain 			|N
+01.01.20	|contact, gradational				|50 						|questionable		|questionable 		|N
+01.01.21	|contact, gradational				|50	   					    |certain			|certain 			|N
+#Fault
+02.01.01	|fault								|8							|certain			|certain 			|N
+02.01.02	|fault								|8							|questionable	  	|questionable       |N
+02.01.03	|fault								|16							|certain		    |certain 			|N
+02.01.04	|fault								|16							|questionable	  	|questionable       		|N
+#added (below) 20191122
+02.01.05	|fault								|32							|certain			|certain 			|Y
+02.01.07	|fault								|16							|certain			|certain 			|Y
+02.01.08	|fault								|16							|questionable		|questionable 		|Y
+#Fault normal
+02.02.01	|fault, normal						|8							|certain			|certain 			|N
+02.02.02	|fault, normal						|8							|certain			|certain 			|N
+02.02.03	|fault, normal						|16							|certain			|certain 			|N
+02.02.04	|fault, normal						|16							|certain			|certain 			|N
+02.02.07	|fault, normal						|16							|certain			|certain 			|Y
+02.02.08	|fault, normal						|16							|questionable		|questionable 		|Y
+#Fault low-angle normal
+02.02.09	|fault, normal low-angle			|8							|certain			|certain 			|N
+02.02.15	|fault, normal low-angle			|16							|certain			|certain 			|Y
+02.02.16	|fault, normal low-angle			|16							|questionable		|questionable 		|Y
+#Fault strike-slip
+02.06.09	|fault, left-lateral strike slip	|8							|certain			|certain 			|N
+#added (below) 20191122
+02.06.11	|fault, left-lateral strike slip	|16							|certain			|certain 			|N
+02.06.12	|fault, left-lateral strike slip	|16							|questionable		|questionable 		|N
+02.06.15	|fault, left-lateral strike slip	|16							|certain			|certain 			|Y
+02.06.16	|fault, left-lateral strike slip	|32							|questionable		|questionable 		|Y
+#Fault oblique
+02.07.01	|fault, right-lateral oblique slip	|8							|certain			|certain 			|N
+02.07.07	|fault, right-lateral oblique slip	|16							|certain			|certain 			|Y
+02.07.08	|fault, right-lateral oblique slip	|16							|questionable		|questionable 		|Y
+#Fault thrust -added 20191122
+02.08.01	|fault, thrust						|8							|certain			|certain 			|N
+02.08.03	|fault, thrust						|16							|certain			|certain 			|N
+#Fault detachment
+02.10.01	|fault, detachment					|8							|certain			|certain 			|N
+02.10.03	|fault, detachment					|16							|certain			|certain 			|N
+02.10.07	|fault, detachment					|32							|certain			|certain 			|Y
+#Fault inclined
+02.11.09	|fault, inclined					|8							|certain			|certain 			|N
+#Other
+01.02.01	|key bed							|8							|certain			|certain			|N
+30.02.29	|shoreline							|8							|certain			|certain			|N
+30.02.30	|shoreline, indefinite				|16							|certain			|certain			|N
+31.08		|map neatline						|0.0						|certain			|certain			|N
+31.31		|scratch boundary					|0.0						|certain			|certain			|N
+04.01.01	|lineation							|16							|questionable		|certain			|N
+
+#Try and duplicate all symbols in Contacts and Faults and all the CS(A,B,C)ContactsAndFaults
+#Doubled locationconfidencemeters since it is so much more uncertain in the subsurface
+CSAContactsAndFaults					
+Symbol		|Type	    						|LocationConfidenceMeters	|ExistenceConfidence|IdentityConfidence	|IsConcealed
+#Contacts
+Topo Profile	|contact						|16	                   		|certain	        |certain	        |N
+01.01.01	|contact							|16	                    	|certain	        |certain	        |Y
+01.01.02	|contact   							|16                       	|questionable      	|questionable       |Y
+01.01.03	|contact   							|64                       	|certain            |certain            |Y
+01.01.04	|contact   							|64							|questionable      	|questionable		|Y
+01.01.05	|contact   							|64                       	|certain     		|certain            |Y
+01.01.06	|contact   							|64                       	|questionable     	|questionable       |Y
+01.01.07	|contact   							|32                      	|certain     		|certain       		|Y
+01.01.08	|contact   							|32							|questionable     	|questionable       |Y
+#Internal Contacts
+01.01.09	|contact, internal					|16                   		|certain          	|certain       		|Y
+01.01.11	|contact, internal					|32                  		|certain          	|certain       		|Y
+01.01.12	|contact, internal					|32							|certain			|certain 			|Y
+#Incised scarps
+01.01.33	|contact, incised-scarp 			|16							|certain	        |certain	        |Y
+01.01.34	|contact, incised-scarp				|16							|certain			|certain 			|Y
+#fluvial terrace scarp
+12.01		|fluvial terrace scarp						|16							|certain			|certain 			|Y
+12.02		|fluvial terrace scarp						|16							|certain			|certain 			|Y
+12.03		|fluvial terrace scarp						|32							|certain			|certain 			|Y
+12.04		|fluvial terrace scarp						|32							|certain			|certain 			|Y
+#Gradational contacts
+01.01.17	|contact, gradational				|64							|certain			|certain			|Y
+01.01.19	|contact, gradational				|100						|certain			|certain 			|Y
+01.01.20	|contact, gradational				|100						|questionable		|questionable 		|Y
+01.01.21	|contact, gradational				|100						|certain			|certain 			|Y
+#Fault
+02.01.01	|fault								|16							|certain			|certain 			|Y
+02.01.02	|fault								|16							|questionable	  	|questionable       |Y
+02.01.03	|fault								|32							|certain		    |certain 			|Y
+02.01.04	|fault								|32							|certain	  		|certain       		|Y
+02.01.07	|fault								|32							|certain			|certain 			|Y
+02.01.08	|fault								|64							|questionable		|questionable 		|Y
+#Fault normal
+02.02.01	|fault, normal						|16							|certain			|certain 			|Y
+02.02.02	|fault, normal						|16							|certain			|certain 			|Y
+02.02.03	|fault, normal						|32							|certain			|certain 			|Y
+02.02.04	|fault, normal						|32							|certain			|certain 			|Y
+02.02.07	|fault, normal						|32							|certain			|certain 			|Y
+02.02.08	|fault, normal						|32							|questionable		|questionable 		|Y
+#Fault low-angle normal
+02.02.09	|fault, normal low-angle			|16							|certain			|certain 			|Y
+02.02.15	|fault, normal low-angle			|32							|certain			|certain 			|Y
+02.02.16	|fault, normal low-angle			|32							|questionable		|questionable 		|Y
+#Fault strike-slip
+02.06.09	|fault, left-lateral strike slip	|16							|certain			|certain 			|Y
+02.06.12	|fault, left-lateral strike slip	|32							|questionable		|questionable 		|Y
+02.06.15	|fault, left-lateral strike slip	|32							|certain			|certain 			|Y
+02.06.16	|fault, left-lateral strike slip	|64							|questionable		|questionable 		|Y
+#Fault oblique
+02.07.01	|fault, right-lateral oblique slip	|16							|certain			|certain 			|Y
+02.07.07	|fault, right-lateral oblique slip	|32							|certain			|certain 			|Y
+02.07.08	|fault, right-lateral oblique slip	|32							|questionable		|questionable 		|Y
+#Fault detachment
+02.10.01	|fault, detachment					|16							|certain			|certain 			|Y
+02.10.03	|fault, detachment					|32							|certain			|certain 			|Y
+02.10.07	|fault, detachment					|64							|certain			|certain 			|Y
+#Fault inclined
+02.11.09	|fault, inclined					|16							|certain			|certain 			|Y
+#Other
+01.02.01	|key bed							|16							|certain			|certain			|Y
+30.02.29	|shoreline							|16							|certain			|certain			|Y
+30.02.30	|shoreline, indefinite				|32							|certain			|certain			|Y
+31.08		|map neatline						|0.0						|certain			|certain			|Y
+31.31		|scratch boundary					|0.0							|certain			|certain			|Y
+04.01.01	|lineation							|32							|certain			|certain			|Y
+
+CSBContactsAndFaults					
+Symbol		|Type	    						|LocationConfidenceMeters	|ExistenceConfidence|IdentityConfidence	|IsConcealed
+#Contacts
+Topo Profile	|contact						|16	                   		|certain	        |certain	        |N
+01.01.01	|contact							|16	                    	|certain	        |certain	        |Y
+01.01.02	|contact   							|16                       	|questionable      	|questionable       |Y
+01.01.03	|contact   							|64                       	|certain            |certain            |Y
+01.01.04	|contact   							|64							|questionable      	|questionable		|Y
+01.01.05	|contact   							|64                       	|certain     		|certain            |Y
+01.01.06	|contact   							|64                       	|questionable     	|questionable       |Y
+01.01.07	|contact   							|32                      	|certain     		|certain       		|Y
+01.01.08	|contact   							|32							|questionable     	|questionable       |Y
+#Internal Contacts
+01.01.09	|contact, internal					|16                   		|certain          	|certain       		|Y
+01.01.11	|contact, internal					|32                  		|certain          	|certain       		|Y
+01.01.12	|contact, internal					|32							|certain			|certain 			|Y
+#Incised scarps
+01.01.33	|contact, incised-scarp 			|16							|certain	        |certain	        |Y
+01.01.34	|contact, incised-scarp				|16							|certain			|certain 			|Y
+#fluvial terrace scarp
+12.01		|fluvial terrace scarp						|16							|certain			|certain 			|Y
+12.02		|fluvial terrace scarp						|16							|certain			|certain 			|Y
+12.03		|fluvial terrace scarp						|32							|certain			|certain 			|Y
+12.04		|fluvial terrace scarp						|32							|certain			|certain 			|Y
+#Gradational contacts
+01.01.17	|contact, gradational				|64							|certain			|certain			|Y
+01.01.19	|contact, gradational				|100							|certain			|certain 			|Y
+01.01.20	|contact, gradational				|100						|questionable		|questionable 		|Y
+01.01.21	|contact, gradational				|100						|certain			|certain 			|Y
+#Fault
+02.01.01	|fault								|16							|certain			|certain 			|Y
+02.01.02	|fault								|16							|questionable	  	|questionable       |Y
+02.01.03	|fault								|32							|certain		    |certain 			|Y
+02.01.04	|fault								|32							|certain	  		|certain       		|Y
+02.01.07	|fault								|32							|certain			|certain 			|Y
+02.01.08	|fault								|64							|questionable		|questionable 		|Y
+#Fault normal
+02.02.01	|fault, normal						|16							|certain			|certain 			|Y
+02.02.02	|fault, normal						|16							|certain			|certain 			|Y
+02.02.03	|fault, normal						|32							|certain			|certain 			|Y
+02.02.04	|fault, normal						|32							|certain			|certain 			|Y
+02.02.07	|fault, normal						|32							|certain			|certain 			|Y
+02.02.08	|fault, normal						|32							|questionable		|questionable 		|Y
+#Fault low-angle normal
+02.02.09	|fault, normal low-angle			|16							|certain			|certain 			|Y
+02.02.15	|fault, normal low-angle			|32							|certain			|certain 			|Y
+02.02.16	|fault, normal low-angle			|32							|questionable		|questionable 		|Y
+#Fault strike-slip
+02.06.09	|fault, left-lateral strike slip	|16							|certain			|certain 			|Y
+02.06.12	|fault, left-lateral strike slip	|32							|questionable		|questionable 		|Y
+02.06.15	|fault, left-lateral strike slip	|32							|certain			|certain 			|Y
+02.06.16	|fault, left-lateral strike slip	|64							|questionable		|questionable 		|Y
+#Fault oblique
+02.07.01	|fault, right-lateral oblique slip	|16							|certain			|certain 			|Y
+02.07.07	|fault, right-lateral oblique slip	|32							|certain			|certain 			|Y
+02.07.08	|fault, right-lateral oblique slip	|32							|questionable		|questionable 		|Y
+#Fault detachment
+02.10.01	|fault, detachment					|16							|certain			|certain 			|Y
+02.10.03	|fault, detachment					|32							|certain			|certain 			|Y
+02.10.07	|fault, detachment					|64							|certain			|certain 			|Y
+#Fault inclined
+02.11.09	|fault, inclined					|16							|certain			|certain 			|Y
+#Other
+01.02.01	|key bed							|16							|certain			|certain			|Y
+30.02.29	|shoreline							|16							|certain			|certain			|Y
+30.02.30	|shoreline, indefinite				|32							|certain			|certain			|Y
+31.08		|map neatline						|0.0						|certain			|certain			|Y
+31.31		|scratch boundary					|0.0						|certain			|certain			|Y
+
+OrientationPoints				
+Symbol		|Type	    								|IdentityConfidence	|OrientationConfidenceDegrees	|LocationConfidenceMeters 	|LocationSourceID
+#Bedding
+06.01		|bedding, horizontal 						|certain			|5								|5						|HandheldGPS		
+06.02		|bedding, inclined 							|certain			|5								|5						|HandheldGPS
+#Joints
+04.03.02	|joint										|certain			|5								|5						|HandheldGPS		
+#Foliation
+08.03.02	|foliation, metamorphic, inclined			|certain			|5								|5						|HandheldGPS
+08.03.03	|foliation, metamorphic, vertical			|certain			|5								|5						|HandheldGPS			
+08.02.03	|foliation, igneous, inclined				|certain			|5								|5						|HandheldGPS
+08.02.04	|foliation, igneous, vertical				|certain			|5								|5						|HandheldGPS
+08.03.56	|foliation, mylonitic, vertical				|certain			|5								|5						|HandheldGPS
+#Fluvial
+12.05		|transport direction, fluvial				|certain			|5								|5						|HandheldGPS				
+12.06		|transport direction, from imbrication		|certain			|5								|5						|HandheldGPS
+12.08		|transport direction, flute cast			|certain			|5								|5						|HandheldGPS
+#Lineation
+09.037		|lineation, aligned mineral					|certain			|5								|5						|HandheldGPS
+#Other
+02.11.09	|fault, inclined 							|certain			|5								|5						|HandheldGPS		
+02.11.08	|fault, inclined 							|certain			|5								|5						|HandheldGPS	
+09.017		|slickenline 								|certain			|5								|5						|HandheldGPS
+#Faults
+
+CartographicLines				
+Symbol	|Type	    	
+31.08	|map neatline
+31.10	|cross section line
+31.11	|leader
+
+CSACartographicLines				
+Symbol	|Type	    	
+31.08	|map neatline
+31.10	|cross section line
+31.11	|leader
+Topo Profile	|topo profiles
+31.31	|bend in cross section
+
+CSBCartographicLines				
+Symbol	|Type	    
+31.08	|map neatline	
+31.10	|cross section line
+31.11	|leader
+Topo Profile	|topo profiles
+31.31	|bend in cross section
+
+CMUPoints
+Symbol |Type
+#Bedding
+06.01		|bedding, horizontal 					
+06.02		|bedding, inclined 					
+#Joints
+04.03.02	|joint											
+#Foliation
+08.03.02	|foliation, metamorphic, inclined			
+08.03.03	|foliation, metamorphic, vertical				
+08.02.03	|foliation, igneous, inclined		
+08.02.04	|foliation, igneous, vertical				
+08.03.56	|foliation, mylonitic, vertical			
+#Fluvial
+12.05		|transport direction, fluvial								
+12.06		|transport direction, from imbrication		
+12.08		|transport direction, flute cast			
+#Lineation
+09.037		|lineation, aligned mineral				
+#Other
+02.11.09	|fault, inclined
+02.11.08	|fault, inclined 	 							
+09.017		|slickenline 	
+31.10		|cross section line
+31.21		|sample location
+
+CMULines
+Symbol |Type
+#Contacts
+Topo Profile	|contact			
+01.01.01	|contact					
+01.01.02	|contact   						
+01.01.03	|contact   							
+01.01.04	|contact   							
+01.01.05	|contact   						
+01.01.06	|contact   						
+01.01.07	|contact   						
+01.01.08	|contact   						
+#Internal Contacts
+01.01.09	|contact, internal				
+01.01.11	|contact, internal				
+01.01.12	|contact, internal				
+#Incised scarps
+01.01.33	|contact, incised-scarp 			
+01.01.34	|contact, incised-scarp			
+#fluvial terrace scarp
+12.01		|fluvial terrace scarp						
+12.02		|fluvial terrace scarp				
+12.03		|fluvial terrace scarp			
+12.04		|fluvial terrace scarp					
+#Gradational contacts
+01.01.17	|contact, gradational		
+01.01.19	|contact, gradational				
+01.01.20	|contact, gradational				
+01.01.21	|contact, gradational				
+#Fault
+02.01.01	|fault					
+02.01.02	|fault								
+02.01.03	|fault							
+02.01.04	|fault						
+02.01.07	|fault						
+02.01.08	|fault								
+#Fault normal
+02.02.01	|fault, normal			
+02.02.02	|fault, normal					
+02.02.03	|fault, normal				
+02.02.04	|fault, normal						
+02.02.07	|fault, normal					
+02.02.08	|fault, normal						
+#Fault low-angle normal
+02.02.09	|fault, normal low-angle			
+02.02.15	|fault, normal low-angle			
+02.02.16	|fault, normal low-angle			
+#Fault strike-slip
+02.06.09	|fault, left-lateral strike slip	
+02.06.12	|fault, left-lateral strike slip
+02.06.15	|fault, left-lateral strike slip	
+02.06.16	|fault, left-lateral strike slip	
+#Fault oblique
+02.07.01	|fault, right-lateral oblique slip	
+02.07.07	|fault, right-lateral oblique slip	
+02.07.08	|fault, right-lateral oblique slip	
+#Fault detachment
+02.10.01	|fault, detachment			
+02.10.03	|fault, detachment					
+02.10.07	|fault, detachment					
+#Fault inclined
+02.11.09	|fault, inclined					
+#Other
+01.02.01	|key bed						
+30.02.29	|shoreline							
+30.02.30	|shoreline, indefinite				
+31.08		|map neatline			
+31.10		|cross section line			
+31.31		|scratch boundary
+31.32		|age bracket				
+04.01.01	|lineation						
