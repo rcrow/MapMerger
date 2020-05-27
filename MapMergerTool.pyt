@@ -718,7 +718,7 @@ class mapMerger(object):
             arcpy.FeatureToPoint_management(in_features=exportMergedFDSFullPath + "\\" + "MapUnitPolys_NotTiny",
                                             out_feature_class=exportMergedFDSFullPath + "\\" + "MapUnitPoints",
                                             point_location="INSIDE")
-
+            arcpy.AddMessage("Rebuidling Polygons")
             arcpy.FeatureToPolygon_management(
                 in_features=exportMergedFDSFullPath + "\\" + "ContactsAndFaults",
                 out_feature_class=exportMergedFDSFullPath + "\\" + "MapUnitPolys_rebuilt",
@@ -726,6 +726,7 @@ class mapMerger(object):
                 label_features=exportMergedFDSFullPath + "\\" + "MapUnitPoints")
 
         if buildTopology:
+            arcpy.AddMessage("Building Topology")
             topology = arcpy.CreateTopology_management(exportMergedFDSFullPath, "Topology", in_cluster_tolerance="")
             arcpy.AddFeatureClassToTopology_management(topology, exportMergedFDSFullPath + "\\" + "MapUnitPolys", xy_rank="1", z_rank="1")
             arcpy.AddFeatureClassToTopology_management(topology, exportMergedFDSFullPath + "\\" + "ContactsAndFaults", xy_rank="1", z_rank="1")
@@ -740,6 +741,16 @@ class mapMerger(object):
                 in_topology=topology,
                 out_path=exportMergedFDSFullPath,
                 out_basename="TopologyErrors")
+
+        #TODO add these as options?
+        arcpy.AddMessage("Calculating Labels")
+        arcpy.calcLabels_MergerTools(fc=exportMergedFDSFullPath + "\\" + "MapUnitPolys")
+        arcpy.AddMessage("Simplifing Concenations")
+        arcpy.simpConcat_MergerTools(fc=exportMergedFDSFullPath + "\\" + "MapUnitPolys")
+        arcpy.AddMessage("Copying MapUnit to Symbol")
+        arcpy.CalculateField_management(in_table=exportMergedFDSFullPath + "\\" + "MapUnitPolys",
+                                        field="Symbol", expression="!MapUnit!",
+                                        expression_type="PYTHON_9.3", code_block="")
 
 
         end = datetimePrint()[3]

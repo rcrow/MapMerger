@@ -17,7 +17,7 @@ class Toolbox (object):
         self.alias = "MergerTools"
 
         # List of tool classes associated with this toolbox
-        self.tools = [dissolveAndConcatenate,removeInteriorMapBoundaries,calcLabels]
+        self.tools = [dissolveAndConcatenate,removeInteriorMapBoundaries,calcLabels,simpConcat]
 
 class dissolveAndConcatenate(object):
     def __init__(self):
@@ -252,6 +252,92 @@ class calcLabels(object):
                     row[1]=mapunit.replace("C","_",1)
                 else:
                     row[1]=mapunit
+                cursor.updateRow(row)
+        edit.stopOperation()
+        edit.stopEditing(True)
+
+        return
+
+class simpConcat(object):
+    def __init__(self):
+        """Define the tool (tool name is the name of the class)."""
+        self.label = "SimplifyConcatenations"
+        self.description = ""
+        self.canRunInBackground = False
+
+    def getParameterInfo(self):
+        """Define parameter definitions"""
+        param0 = arcpy.Parameter(
+            displayName="FC to simplify:",
+            name="fc",
+            datatype="GPFeatureLayer",
+            parameterType="Required",
+            direction="Input")
+
+        params = [param0]
+        return params
+
+    def isLicensed(self):
+        """Set whether tool is licensed to execute."""
+        return True
+
+    def updateParameters(self, parameters):
+        """Modify the values and properties of parameters before internal
+        validation is performed.  This method is called whenever a parameter
+        has been changed."""
+        return
+
+    def updateMessages(self, parameters):
+        """Modify the messages created by internal validation for each tool
+        parameter.  This method is called after internal validation."""
+        return
+
+    def execute(self, parameters, messages):
+        """The source code of the tool."""
+        fc = parameters[0].valueAsText
+        edit = arcpy.da.Editor(getGDB(fc))
+        edit.startEditing(False, False)
+        edit.startOperation()
+        with arcpy.da.UpdateCursor(fc,['IdentityConfidence','DataSourceID','OrigUnit']) as cursor:
+            for row in cursor:
+                MapUnit = str(row[2]).split(",")
+                arcpy.AddMessage(MapUnit)
+                IdentityConfidence = str(row[0]).split(",")
+                arcpy.AddMessage(IdentityConfidence)
+                DataSourceID = str(row[1]).split(",")
+                arcpy.AddMessage(DataSourceID)
+
+                length = len(MapUnit)
+                arcpy.AddMessage(length)
+
+                concatList = []
+                for n, value in enumerate(MapUnit):
+                    concatList.append([MapUnit[n], IdentityConfidence[n], DataSourceID[n]])
+                arcpy.AddMessage(concatList)
+
+                uniqueConcat = []
+                for p in concatList:
+                    if p not in uniqueConcat:
+                        uniqueConcat.append(p)
+                arcpy.AddMessage(uniqueConcat)
+
+                newMapUnit = []
+                newIdentityConfidence = []
+                newDataSourceID = []
+
+                for s, value in enumerate(uniqueConcat):
+                    newMapUnit.append(value[0])
+                    newIdentityConfidence.append(value[1])
+                    newDataSourceID.append(value[2])
+
+                arcpy.AddMessage(newMapUnit)
+                arcpy.AddMessage(newIdentityConfidence)
+                arcpy.AddMessage(newDataSourceID)
+
+                row[2] = ", ".join(newMapUnit)
+                row[0] = ", ".join(newIdentityConfidence)
+                row[1] = ", ".join(newDataSourceID)
+
                 cursor.updateRow(row)
         edit.stopOperation()
         edit.stopEditing(True)
