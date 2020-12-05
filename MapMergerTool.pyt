@@ -351,11 +351,13 @@ class mapMerger(object):
                 dissPath = exportOverlayDB + "\\" + "Diss_Master"
                 #TODO this is probably not the best place for this file
                 mapAreasFC = exportOverlayDB+r"\ExtentPolys_Master"
+                arcpy.AddMessage("Using MASTER")
             else:
                 polyPath = exportOverlayDB + "\\"+"Polys_" + timeDateString
                 dissPath = exportOverlayDB + "\\"+"Diss_" + timeDateString
                 #TODO this is probably not the best place for this file
                 mapAreasFC = exportOverlayDB+ r"\ExtentPolys_" + timeDateString
+                arcpy.AddMessage("Not using MASTER")
             if overlayPrefix == None:
                 inputOverlayLines = overlayInputDBPath + "\\" + "GeologicMap" + "\\" + "ContactsAndFaults"
                 inputOverlayPoints = overlayInputDBPath + "\\" + "GeologicMap" + "\\" + "MapUnitPoints"
@@ -577,6 +579,7 @@ class mapMerger(object):
             arcpy.AddMessage('  Conversion table:' + conversionTable)
             df = pandas.read_excel(conversionTable)
             prevUnits = df['previous map unit'].values.tolist()
+            #TODO this is where you would add an alt mapunit option
             newUnits = df['new map unit'].values.tolist()
             if len(arcpy.ListFields(exportFDSFullPath + "\\" + exportFDSPrefix + "_" + "MapUnitPolys","OrigUnit"))==0:
                 arcpy.AddField_management(exportFDSFullPath + "\\" + exportFDSPrefix + "_" + "MapUnitPolys","OrigUnit","TEXT")

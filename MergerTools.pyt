@@ -244,14 +244,18 @@ class calcLabels(object):
         with arcpy.da.UpdateCursor(fc,['MapUnit', 'Label']) as cursor:
             for row in cursor:
                 mapunit=row[0]
-                if mapunit.startswith("IP"):
-                    row[1]=mapunit.replace("IP","*",1)
-                elif mapunit.startswith("TR"):
-                    row[1]=mapunit.replace("TR","^",1)
-                elif mapunit.startswith("C"):
-                    row[1]=mapunit.replace("C","_",1)
+                #arcpy.AddMessage("Mapunit is: "+str(mapunit))
+                if mapunit is not None:
+                    if mapunit.startswith("IP"):
+                        row[1]=mapunit.replace("IP","*",1)
+                    elif mapunit.startswith("TR"):
+                        row[1]=mapunit.replace("TR","^",1)
+                    elif mapunit.startswith("C"):
+                        row[1]=mapunit.replace("C","_",1)
+                    else:
+                        row[1]=mapunit
                 else:
-                    row[1]=mapunit
+                    arcpy.AddMessage("No mapunit")
                 cursor.updateRow(row)
         edit.stopOperation()
         edit.stopEditing(True)
@@ -298,28 +302,31 @@ class simpConcat(object):
         edit = arcpy.da.Editor(getGDB(fc))
         edit.startEditing(False, False)
         edit.startOperation()
-        with arcpy.da.UpdateCursor(fc,['IdentityConfidence','DataSourceID','OrigUnit']) as cursor:
+        with arcpy.da.UpdateCursor(fc,['IdentityConfidence','DataSourceID','OrigUnit','OBJECTID']) as cursor:
             for row in cursor:
+                arcpy.AddMessage("________")
                 MapUnit = str(row[2]).split(",")
-                arcpy.AddMessage(MapUnit)
+                arcpy.AddMessage("Object ID:"+str(row[3]))
+                arcpy.AddMessage("Original Attributes:")
+                arcpy.AddMessage(" Mapunits: "+str(MapUnit))
                 IdentityConfidence = str(row[0]).split(",")
-                arcpy.AddMessage(IdentityConfidence)
+                arcpy.AddMessage(" IdentityConfidence: "+str(IdentityConfidence))
                 DataSourceID = str(row[1]).split(",")
-                arcpy.AddMessage(DataSourceID)
+                arcpy.AddMessage(" DatSourceID: "+str(DataSourceID))
 
                 length = len(MapUnit)
-                arcpy.AddMessage(length)
+                arcpy.AddMessage("Number of values: " +str(length))
 
                 concatList = []
                 for n, value in enumerate(MapUnit):
                     concatList.append([MapUnit[n], IdentityConfidence[n], DataSourceID[n]])
-                arcpy.AddMessage(concatList)
+                arcpy.AddMessage("List of concatenated attributes: "+str(concatList))
 
                 uniqueConcat = []
                 for p in concatList:
                     if p not in uniqueConcat:
                         uniqueConcat.append(p)
-                arcpy.AddMessage(uniqueConcat)
+                arcpy.AddMessage("List of unique attribute: "+str(uniqueConcat))
 
                 newMapUnit = []
                 newIdentityConfidence = []
@@ -330,15 +337,24 @@ class simpConcat(object):
                     newIdentityConfidence.append(value[1])
                     newDataSourceID.append(value[2])
 
-                arcpy.AddMessage(newMapUnit)
-                arcpy.AddMessage(newIdentityConfidence)
-                arcpy.AddMessage(newDataSourceID)
+                arcpy.AddMessage("Original Attributes:")
+                arcpy.AddMessage("  New Mapunits: "+str(newMapUnit))
+                arcpy.AddMessage("  New IdentityConfidence: "+str(newIdentityConfidence))
+                arcpy.AddMessage("  New DataSourceID "+str(newDataSourceID))
 
                 row[2] = ", ".join(newMapUnit)
                 row[0] = ", ".join(newIdentityConfidence)
                 row[1] = ", ".join(newDataSourceID)
 
                 cursor.updateRow(row)
+
+                #Empything lists to try and get around an issue...
+                concatList = []
+                uniqueConcat= []
+                newMapUnit= []
+                newIdentityConfidence= []
+                newDataSourceID= []
+
         edit.stopOperation()
         edit.stopEditing(True)
 
