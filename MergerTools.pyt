@@ -315,38 +315,45 @@ class simpConcat(object):
                 arcpy.AddMessage(" DatSourceID: "+str(DataSourceID))
 
                 length = len(MapUnit)
-                arcpy.AddMessage("Number of values: " +str(length))
+                lengthConf = len(IdentityConfidence)
+                lengthData = len(DataSourceID)
+                arcpy.AddMessage("Number of values: " +str(length)+", " +str(IdentityConfidence)+", "+str(DataSourceID))
 
-                concatList = []
-                for n, value in enumerate(MapUnit):
-                    concatList.append([MapUnit[n], IdentityConfidence[n], DataSourceID[n]])
-                arcpy.AddMessage("List of concatenated attributes: "+str(concatList))
 
-                uniqueConcat = []
-                for p in concatList:
-                    if p not in uniqueConcat:
-                        uniqueConcat.append(p)
-                arcpy.AddMessage("List of unique attribute: "+str(uniqueConcat))
+                if length == lengthConf and length == lengthData and lengthConf == lengthData:
+                    concatList = []
+                    arcpy.AddMessage("Empty list of concatenated attributes: " + str(concatList)) #For testing
+                    for n, value in enumerate(MapUnit):
+                        concatList.append([MapUnit[n], IdentityConfidence[n], DataSourceID[n]])
+                    arcpy.AddMessage("List of concatenated attributes: "+str(concatList))
 
-                newMapUnit = []
-                newIdentityConfidence = []
-                newDataSourceID = []
+                    uniqueConcat = []
+                    for p in concatList:
+                        if p not in uniqueConcat:
+                            uniqueConcat.append(p)
+                    arcpy.AddMessage("List of unique attribute: "+str(uniqueConcat))
 
-                for s, value in enumerate(uniqueConcat):
-                    newMapUnit.append(value[0])
-                    newIdentityConfidence.append(value[1])
-                    newDataSourceID.append(value[2])
+                    newMapUnit = []
+                    newIdentityConfidence = []
+                    newDataSourceID = []
 
-                arcpy.AddMessage("Original Attributes:")
-                arcpy.AddMessage("  New Mapunits: "+str(newMapUnit))
-                arcpy.AddMessage("  New IdentityConfidence: "+str(newIdentityConfidence))
-                arcpy.AddMessage("  New DataSourceID "+str(newDataSourceID))
+                    for s, value in enumerate(uniqueConcat):
+                        newMapUnit.append(value[0])
+                        newIdentityConfidence.append(value[1])
+                        newDataSourceID.append(value[2])
 
-                row[2] = ", ".join(newMapUnit)
-                row[0] = ", ".join(newIdentityConfidence)
-                row[1] = ", ".join(newDataSourceID)
+                    arcpy.AddMessage("New Attributes:")
+                    arcpy.AddMessage("  New Mapunits: "+str(newMapUnit))
+                    arcpy.AddMessage("  New IdentityConfidence: "+str(newIdentityConfidence))
+                    arcpy.AddMessage("  New DataSourceID "+str(newDataSourceID))
 
-                cursor.updateRow(row)
+                    row[2] = ", ".join(newMapUnit)
+                    row[0] = ", ".join(newIdentityConfidence)
+                    row[1] = ", ".join(newDataSourceID)
+
+                    cursor.updateRow(row)
+                else:
+                    arcpy.AddMessage("Warning: lists are different lengths")
 
                 #Empything lists to try and get around an issue...
                 concatList = []
