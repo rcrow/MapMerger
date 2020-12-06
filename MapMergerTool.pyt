@@ -317,12 +317,12 @@ class mapMerger(object):
 
         # Create a new GDB
         # Export names and proj
-        if writeToMaster:
+        if writeToMaster == "true": #"if writeToMaster:" is always true #TODO this change probably has to be made throughout!!!
             exportGDBName = exportGDBPrefix + "MASTER"
-            print("Writing to master")
+            arcpy.AddMessage("Writing to master")
         else:
             exportGDBName = exportGDBPrefix + timeDateString
-            print("Appending the date to DB")
+            arcpy.AddMessage("Appending the date to DB")
 
         spatialRef = arcpy.Describe(mapAreasFCOrig).spatialReference #Assumes mapAreaFC and mapDBs have the same projection
 
@@ -339,14 +339,14 @@ class mapMerger(object):
                                        out_name=exportGDBName,
                                        out_version="CURRENT")
 
-        if buildOverlayMapping:
+        if buildOverlayMapping == "true":
             print("Building overlays")
             overlayInputDBPath = parameters[6].valueAsText
             arcpy.AddMessage(" Path to overlays DB: "+str(overlayInputDBPath))
             exportOverlayDB = overlayInputDBPath
             overlayPrefix = parameters[7].valueAsText
             arcpy.AddMessage(" Overlay prefix: " + str(overlayPrefix))
-            if writeToMaster:
+            if writeToMaster == "true":
                 polyPath = exportOverlayDB + "\\" + "Polys_Master"
                 dissPath = exportOverlayDB + "\\" + "Diss_Master"
                 #TODO this is probably not the best place for this file
@@ -382,18 +382,21 @@ class mapMerger(object):
             overlayIDataSourceID = parameters[10].valueAsText
             arcpy.AddMessage(" Overlay datasource ID: " + str(overlayIDataSourceID))
 
-            if crosswalkNew:
+            if crosswalkNew == "true":
                 txtFile = parameters[12].valueAsText
                 arcpy.AddMessage(" Path to crosswalk file: " + str(txtFile))
                 arcpy.AddMessage("Crosswalking the new mapping")
                 arcpy.AttributeByKeyValues_GEMS(overlayInputDBPath, txtFile, True)
+            else:
+                arcpy.AddMessage(" not crosswalking new")
 
             arcpy.FeatureToPolygon_management(in_features=inputOverlayLines,
                                               out_feature_class=polyPath,
                                               cluster_tolerance="", attributes="ATTRIBUTES",
                                               label_features=inputOverlayPoints)
 
-            if removeBlank:
+
+            if removeBlank == "true":
                 print("Removing blank polygons from new mapping")
                 tempLayer = "tempLayer"
                 arcpy.MakeFeatureLayer_management(polyPath, tempLayer)
@@ -711,11 +714,13 @@ class mapMerger(object):
         arcpy.DeleteFeatures_management('ContactAndFaults_lyr')
         arcpy.DeleteIdentical_management(exportMergedFDSFullPath + "\\" + "ContactsAndFaults",["Shape","Symbol"])
 
-        if removeInterior:
+        if removeInterior == "true":
             arcpy.removeInteriorMapBoundaries_MergerTools(lines=exportMergedFDSFullPath + "\\" + "ContactsAndFaults",
                                                           gdb=exportGDBFullPath)
+        else:
+            arcpy.AddMessage("Don't remove interiors")
 
-        if rebuildPolygons:
+        if rebuildPolygons == "true":
             arcpy.Select_analysis(exportMergedFDSFullPath + "\\" + "MapUnitPolys", exportMergedFDSFullPath + "\\" + "MapUnitPolys_NotTiny", '"Shape_Area" > 10')
             arcpy.AddMessage("Creating centroid points...")
             arcpy.FeatureToPoint_management(in_features=exportMergedFDSFullPath + "\\" + "MapUnitPolys_NotTiny",
@@ -727,8 +732,10 @@ class mapMerger(object):
                 out_feature_class=exportMergedFDSFullPath + "\\" + "MapUnitPolys_rebuilt",
                 cluster_tolerance="", attributes="ATTRIBUTES",
                 label_features=exportMergedFDSFullPath + "\\" + "MapUnitPoints")
+        else:
+            arcpy.AddMessage("Not rebuilding polygons")
 
-        if buildTopology:
+        if buildTopology == "true":
             arcpy.AddMessage("Building Topology")
             topology = arcpy.CreateTopology_management(exportMergedFDSFullPath, "Topology", in_cluster_tolerance="")
             arcpy.AddFeatureClassToTopology_management(topology, exportMergedFDSFullPath + "\\" + "MapUnitPolys", xy_rank="1", z_rank="1")
@@ -744,6 +751,8 @@ class mapMerger(object):
                 in_topology=topology,
                 out_path=exportMergedFDSFullPath,
                 out_basename="TopologyErrors")
+        else:
+            arcpy.AddMessage("Not building topology")
 
         #TODO add these as options?
         arcpy.AddMessage("Calculating Labels")
