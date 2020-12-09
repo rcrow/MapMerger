@@ -224,10 +224,17 @@ class mapMerger(object):
             parameterType="Required",
             direction="Input")
 
+        param20 = arcpy.Parameter(
+            displayName="Use alternate mapunits:",
+            name="altMapUnit",
+            datatype="Boolean",
+            parameterType="Optional",
+            direction="Input")
+
         params = [param0,param1,param2,param3,param4,
                   param5,param6,param7,param8,param9,param10,
                   param11,param12,param13,
-                  param14,param15,param16,param17,param18,param19]
+                  param14,param15,param16,param17,param18,param19,param20]
         return params
 
     def isLicensed(self):
@@ -308,6 +315,8 @@ class mapMerger(object):
         arcpy.AddMessage(" Build Topology: " + str(buildTopology))
         writeToMaster = parameters[17].valueAsText
         arcpy.AddMessage(" Write to master: " + str(writeToMaster))
+        altMapUnit = parameters[20].valueAsText
+        arcpy.AddMessage(" Use alternate mapunits: " + str(altMapUnit))
 
         #######################################################################################################################
         start = datetimePrint()[3]
@@ -395,7 +404,6 @@ class mapMerger(object):
                                               cluster_tolerance="", attributes="ATTRIBUTES",
                                               label_features=inputOverlayPoints)
 
-
             if removeBlank == "true":
                 print("Removing blank polygons from new mapping")
                 tempLayer = "tempLayer"
@@ -404,6 +412,17 @@ class mapMerger(object):
                                                         "mapunit = ''")
                 if int(arcpy.GetCount_management(tempLayer).getOutput(0)) > 0:
                     arcpy.DeleteFeatures_management(tempLayer)
+
+            if altMapUnit == "true":
+                arcpy.AddMessage("Switching Fields in the new polygons")
+                arcpy.AddField_management(polyPath, "tempMapUnit", "TEXT", "", "", "50", "", "NULLABLE", "NON_REQUIRED",
+                                          "")
+                arcpy.CalculateField_management(polyPath, "tempMapUnit", "!mapunit!", "PYTHON_9.3", "")
+                arcpy.CalculateField_management(polyPath, "mapunit", "!mapunit2!", "PYTHON_9.3", "")
+                arcpy.CalculateField_management(polyPath, "mapunit2", "!tempMapUnit!", "PYTHON_9.3", "")
+                arcpy.DeleteField_management(polyPath, "tempMapUnit")
+            else:
+                arcpy.AddMessage("Not switching Fields in the new polygons")
 
             arcpy.Dissolve_management(in_features=polyPath,
                                       out_feature_class=dissPath,
@@ -583,7 +602,14 @@ class mapMerger(object):
             df = pandas.read_excel(conversionTable)
             prevUnits = df['previous map unit'].values.tolist()
             #TODO this is where you would add an alt mapunit option
-            newUnits = df['new map unit'].values.tolist()
+
+            if altMapUnit == "true":
+                newUnits = df['alt map unit'].values.tolist()
+                arcpy.AddMessage("Using alternate mapunits")
+            else:
+                newUnits = df['new map unit'].values.tolist()
+                arcpy.AddMessage("Not using alternate mapunits")
+
             if len(arcpy.ListFields(exportFDSFullPath + "\\" + exportFDSPrefix + "_" + "MapUnitPolys","OrigUnit"))==0:
                 arcpy.AddField_management(exportFDSFullPath + "\\" + exportFDSPrefix + "_" + "MapUnitPolys","OrigUnit","TEXT")
             with arcpy.da.UpdateCursor(exportFDSFullPath + "\\" + exportFDSPrefix + "_" + "MapUnitPolys", ['MapUnit','OrigUnit']) as cursor:
